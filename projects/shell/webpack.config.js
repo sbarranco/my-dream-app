@@ -4,6 +4,11 @@ module.exports = withModuleFederationPlugin({
 
   name: 'shell',
 
+  remotes: {
+    auth: 'auth@http://localhost:4201/remoteEntry.js',
+    dreams: 'dreams@http://localhost:4202/remoteEntry.js'
+  },
+
   exposes: {
     './Component': './projects/shell/src/app/app.component.ts',
   },
