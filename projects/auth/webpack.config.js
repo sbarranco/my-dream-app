@@ -6,6 +6,7 @@ module.exports = withModuleFederationPlugin({
 
   exposes: {
     './Component': './projects/auth/src/app/app.component.ts',
+     './AuthService': './projects/auth/src/app/auth-service/auth.service.ts',
   },
 
   shared: {
