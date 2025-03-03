@@ -1,7 +1,11 @@
+@if (user()) {
+<h1>Welcome again, {{user()}}</h1>
+<h3>Do you want to <a routerLink="/dreams/list">see your dreams</a>?</h3>
+<h3>Or <a routerLink="/dreams/create">add a new one</a>?</h3>
+<p>Or <a routerLink="/auth">logout</a>?</p>
+} @else {
 <h1>Welcome to My Dream App</h1>
-<p>Please <a routerLink="/auth">login</a> to continue.</p>
+<h3>Please <a routerLink="/auth">login</a> to continue.</h3>
+<p>Do you want to know <a routerLink="/about">more?</a></p>
+}
 
-<p>Here are some of the dreams you have shared with us:</p>
-<ul>
-  <li *ngFor="let dream of dreams">{{ dream }}</li>
-</ul>
