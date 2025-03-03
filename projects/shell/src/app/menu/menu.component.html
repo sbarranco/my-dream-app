@@ -1,0 +1,8 @@
+<nav class="menu__nav">
+    @for (item of menuItems; track $index) {
+      <a class="menu__item" [routerLink]="item.path">{{ item.label }}</a>
+    }
+    @if (user) {
+      <button class="menu__button" (click)="logout()">Logout</button>
+    }
+  </nav>
