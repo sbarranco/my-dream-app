@@ -1,8 +1,4 @@
-<h1>{{ title }}</h1>
-<nav>
-  <a routerLink="/">Home</a>
-  <a routerLink="/dreams" *ngIf="user">Dreams</a>
-  <a routerLink="/auth" *ngIf="!user">Login</a>
-  <button (click)="logout()" *ngIf="user">Logout</button>
-</nav>
-<router-outlet></router-outlet>
+<app-menu></app-menu>
+<main class="app__content">
+  <router-outlet></router-outlet>
+</main>
