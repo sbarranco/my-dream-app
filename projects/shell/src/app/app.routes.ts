@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
+import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const APP_ROUTES: Routes = [
   {
@@ -9,16 +11,19 @@ export const APP_ROUTES: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'about',
+    component: AboutComponent,
+  },
+  {
     path: 'auth',
-    loadComponent: () =>
-      import('../../../auth/src/app/app.component').then((m) => m.AppComponent),
+    loadChildren: () =>
+      import('../../../auth/src/app/app.routes').then((m) => m.AUTH_ROUTES),
   },
   {
     path: 'dreams',
-    loadComponent: () =>
-      import('../../../dreams/src/app/app.component').then(
-        (m) => m.AppComponent
-      ),
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import('../../../dreams/src/app/app.routes').then((m) => m.DREAMS_ROUTES),
   },
   {
     path: '**',
