@@ -1,15 +1,17 @@
-import { inject, Component, OnInit } from '@angular/core';
+import { inject, Component, OnInit, HostBinding } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormsModule,
   FormGroup,
   FormControl,
+  Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth-service/auth.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
@@ -21,15 +23,17 @@ import { AuthService } from '../auth-service/auth.service';
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
+    MatButtonModule,
   ],
 })
 export class LoginComponent implements OnInit {
+  @HostBinding('class') class = 'app-login';
   private router = inject(Router);
   private authService = inject(AuthService);
 
   form: FormGroup = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
   });
 
   error: string | null = null;
@@ -41,9 +45,10 @@ export class LoginComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      console.log(this.form.value);
-      localStorage.setItem('user', this.form.value);
+      this.authService.login(this.form.value.email);
       this.router.navigate(['/']);
+    } else {
+      this.error = 'Please enter a valid email address';
     }
   }
 }

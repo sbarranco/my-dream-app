@@ -1,17 +1,22 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private userKey = 'user';
+  private userSubject = new BehaviorSubject<string | null>(null);
+  user$ = this.userSubject.asObservable();
 
-  login(email: string) {
-    localStorage.setItem(this.userKey, email);
+  login(user: string) {
+    localStorage.setItem(this.userKey, user);
+    this.userSubject.next(user);
   }
 
   logout() {
     localStorage.removeItem(this.userKey);
+    this.userSubject.next(null);
   }
 
   getUser(): string | null {
