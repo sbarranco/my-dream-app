@@ -1,8 +1,14 @@
 <nav class="menu__nav">
-    @for (item of menuItems; track $index) {
-      <a class="menu__item" [routerLink]="item.path">{{ item.label }}</a>
+  <img src="assets/moon-white.png" alt="Logo" class="logo" />
+  <div class="menu__items">
+    @for (item of menuItems$ | async; track $index) {
+      @if (item.id === 5) {
+        <button class="menu__button" (click)="logout()">Logout</button>
+      } @else {
+        <a class="menu__item" href="#" [routerLink]="item.path">{{
+          item.label
+        }}</a>
+      }
     }
-    @if (user) {
-      <button class="menu__button" (click)="logout()">Logout</button>
-    }
-  </nav>
+  </div>
+</nav>

@@ -1,50 +1,30 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, signal, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { inject } from '@angular/core';
-
-interface MenuItem {
-  label: string;
-  path: string;
-  authRequired: boolean;
-}
+import { MatIconModule } from '@angular/material/icon';
+import { Observable } from 'rxjs';
+import { MenuItem } from './menu.model';
+import { MatMenuModule } from '@angular/material/menu';
+import { MenuService } from './menu.service';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss',
-  imports: [RouterModule],
+  styleUrls: ['./menu.component.scss'],
+  imports: [CommonModule, RouterModule, MatIconModule, MatMenuModule],
 })
 export class MenuComponent {
   @HostBinding('class') class = 'menu';
 
-  router = inject(Router);
+  private router = inject(Router);
+  private menuService = inject(MenuService);
 
-  user: string | null = null;
-  menuItems: MenuItem[] = [];
-
-  private allMenuItems: MenuItem[] = [
-    { label: 'Home', path: '/', authRequired: false },
-    { label: 'About', path: '/about', authRequired: false },
-    { label: 'Dreams', path: '/dreams', authRequired: true },
-    { label: 'Login', path: '/auth', authRequired: false },
-  ];
-
-  ngOnInit() {
-    // this.user = this.authService.getUser();
-    this.updateMenuItems();
-  }
-
-  updateMenuItems() {
-    this.menuItems = this.allMenuItems.filter(
-      (item) => !item.authRequired || this.user
-    );
-  }
+  user = signal<string | null>(null);
+  menuItems$: Observable<MenuItem[]> = this.menuService.menuItems$;
 
   logout() {
-    // this.authService.logout();
-    localStorage.removeItem('user');
-    this.user = null;
-    this.updateMenuItems();
+    this.menuService.logout();
     this.router.navigate(['/']);
+    window.location.reload();
   }
 }
