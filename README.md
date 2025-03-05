@@ -1,59 +1,165 @@
-# MyDreamApp
+# My Dream App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+## Project Structure and Setup
 
-## Development server
+### Setup
 
-To start a local development server, run:
+1. **Install Dependencies**: Run the following command to install the necessary dependencies for the project.
 
 ```bash
-ng serve
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Project Structure
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+my-dream-app/
+├── projects/
+│   ├── shell/
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── home/
+│   │   │   │   ├── menu/
+│   │   │   │   ├── card/
+│   │   │   │   ├── app.component.ts
+│   │   │   │   ├── app.module.ts
+│   │   │   │   ├── app.routes.ts
+│   │   │   ├── assets/
+│   │   │   ├── index.html
+│   │   ├── webpack.config.js
+│   ├── auth/
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── login/
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   ├── app.component.ts
+│   │   │   │   ├── app.module.ts
+│   │   │   ├── assets/
+│   │   │   ├── index.html
+│   │   ├── webpack.config.js
+│   ├── dreams/
+│   │   ├── src/
+│   │   │   ├── app/
+│   │   │   │   ├── dreams-form/
+│   │   │   │   ├── dreams-list/
+│   │   │   │   ├── dreams.service.ts
+│   │   │   │   ├── app.component.ts
+│   │   │   │   ├── app.module.ts
+│   │   │   ├── assets/
+│   │   │   ├── index.html
+│   │   ├── webpack.config.js
+├── angular.json
+├── package.json
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Module Federation configuration and micro frontend launch instructions.
 
-```bash
-ng generate --help
+Module Federation Configuration
+Each micro frontend (shell, auth, dreams) is configured with Module Federation to enable dynamic loading of modules at runtime.
+
+Shell Webpack Configuration
+
+```javascript
+const {
+  shareAll,
+  withModuleFederationPlugin,
+} = require('@angular-architects/module-federation/webpack');
+
+module.exports = withModuleFederationPlugin({
+  name: 'shell',
+  remotes: {
+    auth: 'auth@http://localhost:3001/remoteEntry.js',
+    dreams: 'dreams@http://localhost:3002/remoteEntry.js',
+  },
+  exposes: {
+    './Component': './projects/shell/src/app/app.component.ts',
+  },
+  shared: {
+    ...shareAll({
+      singleton: true,
+      strictVersion: true,
+      requiredVersion: 'auto',
+    }),
+  },
+});
 ```
 
-## Building
+### Micro Frontend Launch Instructions
 
-To build the project run:
+Run the Shell Application:
 
-```bash
+```
+cd projects/shell
+ng serve --port 4200
+```
+
+Run the Auth Application:
+
+```
+cd ../auth
+ng serve --port 4201
+```
+
+Run the Dreams Application:
+
+```
+cd ../auth
+ng serve --port 4201
+```
+
+### Description of Implemented Functions
+
+#### Shell Application
+
+HomeComponent: Displays the home page with a welcome message and options based on user authentication.
+MenuComponent: Displays the navigation menu with dynamic items based on user authentication.
+CardComponent: Reusable component to display card information.
+
+#### Auth Application
+
+LoginComponent: Handles user login and updates the authentication status.
+AuthService: Manages user authentication and notifies other services about authentication changes.
+
+#### Dreams Application
+
+DreamsFormComponent: Provides a form for users to submit their dreams.
+DreamsListComponent: Displays a list of submitted dreams.
+DreamsService: Manages the storage and retrieval of dreams.
+
+### Full Instructions for Building and Running the Application
+
+1. Install Dependencies: Run the following command to install the necessary dependencies for the project.
+   ```npm install ````
+2. Build the Applications:
+
+```
+cd projects/shell
+ng build
+
+cd ../auth
+ng build
+
+cd ../dreams
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+3. Run the Applications:
 
-## Running unit tests
+```
+cd projects/shell
+ng serve --port 4200
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+cd ../auth
+ng serve --port 4201
 
-```bash
-ng test
+cd ../dreams
+ng serve --port 4202
 ```
 
-## Running end-to-end tests
+4. Access the Applications:
 
-For end-to-end (e2e) testing, run:
+Shell Application: http://localhost:3000
 
-```bash
-ng e2e
-```
+Auth Application: http://localhost:3001
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Dreams Application: http://localhost:3002
