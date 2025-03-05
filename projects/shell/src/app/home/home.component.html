@@ -1,11 +1,21 @@
 @if (user()) {
-<h1>Welcome again, {{user()}}</h1>
-<h3>Do you want to <a routerLink="/dreams/list">see your dreams</a>?</h3>
-<h3>Or <a routerLink="/dreams/create">add a new one</a>?</h3>
-<p>Or <a routerLink="/auth">logout</a>?</p>
-} @else {
-<h1>Welcome to My Dream App</h1>
-<h3>Please <a routerLink="/auth">login</a> to continue.</h3>
-<p>Do you want to know <a routerLink="/about">more?</a></p>
-}
+  <div class="app-home__title">
+    <h1>Welcome again, {{ user() }}</h1>
+    <h3>What do you want to do today?</h3>
+  </div>
 
+  <section class="app-home__cards">
+    @for (card of cards; track $index) {
+      <app-card
+        [title]="card.title"
+        [content]="card.content"
+        [buttonText]="card.buttonText"
+        (clickEvent)="onClickCardButton(card?.path)"
+      />
+    }
+  </section>
+} @else {
+  <h1>Welcome to My Dream App</h1>
+  <h3>Please <a routerLink="/auth">login</a> to continue.</h3>
+  <p>Do you want to know <a routerLink="/about">more?</a></p>
+}
