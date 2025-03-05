@@ -1,1 +1,33 @@
-<p>Dreams form</p>
+<h1>Create new dream</h1>
+<p>
+  Add new dreams to keep track of your dreams and see how they evolve over time.
+</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="app-dreams-form__form">
+    <mat-form-field appearance="fill">
+      <mat-label>Describe your dream</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        maxlength="1000"
+      ></textarea>
+      <mat-hint align="end"
+        >{{ form.get('description')?.value?.length || 0 }}/1000</mat-hint
+      >
+      <mat-error *ngIf="form.get('description')?.hasError('required')">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="form.invalid"
+  >
+    Submit
+  </button>
+</form>
+
+<button mat-stroked-button routerLink="/dreams/list">Back to list</button>

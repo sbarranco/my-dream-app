@@ -1,1 +1,13 @@
-<p>Dreams list</p>
+<h1>Posted Dreams</h1>
+@for (dream of dreams$ | async; track $index) {
+  <mat-card>
+    <mat-card-content>
+      <p>{{ dream.description }}</p>
+      <p><strong>Date:</strong> {{ dream.date }}</p>
+    </mat-card-content>
+  </mat-card>
+} @empty {
+  <p>No dreams posted yet.</p>
+}
+
+<button mat-stroked-button routerLink="/dreams/create">Create new dream</button>
