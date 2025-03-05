@@ -1,0 +1,13 @@
+<mat-card class="app-card">
+  <mat-card-header>
+    <mat-card-title>{{ title() }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ content() }}</p>
+  </mat-card-content>
+  <mat-card-footer class="app-card__footer">
+    <button mat-stroked-button (click)="clickEvent.emit()">
+      {{ buttonText() }}
+    </button>
+  </mat-card-footer>
+</mat-card>
