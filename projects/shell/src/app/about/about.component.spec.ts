@@ -14,7 +14,7 @@ describe('AboutComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'shell' title`, () => {
+  it("should have the 'shell' title", () => {
     const fixture = TestBed.createComponent(AboutComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('about');
