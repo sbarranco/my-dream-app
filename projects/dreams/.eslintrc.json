@@ -1,0 +1,29 @@
+{
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["projects/dreams/tsconfig.*?.json"],
+        "createDefaultProgram": true
+      },
+      "rules": {
+        "no-console": "off",
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": ["element", "attribute"],
+            "prefix": ["app"],
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "rules": {
+      }
+    }
+  ]
+}
