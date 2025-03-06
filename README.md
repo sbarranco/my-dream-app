@@ -67,13 +67,16 @@ const {
 
 module.exports = withModuleFederationPlugin({
   name: 'shell',
+
   remotes: {
-    auth: 'auth@http://localhost:3001/remoteEntry.js',
-    dreams: 'dreams@http://localhost:3002/remoteEntry.js',
+    auth: 'auth@http://localhost:4201/remoteEntry.js',
+    dreams: 'dreams@http://localhost:4202/remoteEntry.js',
   },
+
   exposes: {
     './Component': './projects/shell/src/app/app.component.ts',
   },
+
   shared: {
     ...shareAll({
       singleton: true,
@@ -104,7 +107,7 @@ Run the Dreams Application:
 
 ```
 cd ../auth
-ng serve --port 4201
+ng serve --port 4202
 ```
 
 ### Description of Implemented Functions
@@ -129,7 +132,11 @@ DreamsService: Manages the storage and retrieval of dreams.
 ### Full Instructions for Building and Running the Application
 
 1. Install Dependencies: Run the following command to install the necessary dependencies for the project.
-   ```npm install ````
+
+```
+ npm install
+```
+
 2. Build the Applications:
 
 ```
@@ -158,8 +165,8 @@ ng serve --port 4202
 
 4. Access the Applications:
 
-Shell Application: http://localhost:3000
+Shell Application: http://localhost:4200
 
-Auth Application: http://localhost:3001
+Auth Application: http://localhost:4201
 
-Dreams Application: http://localhost:3002
+Dreams Application: http://localhost:4202
