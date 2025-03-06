@@ -8,7 +8,6 @@ module.exports = withModuleFederationPlugin({
 
   exposes: {
     './Component': './projects/dreams/src/app/app.component.ts',
-    './DreamsService': './projects/dreams/src/app/dreams.service.ts',
   },
 
   shared: {
